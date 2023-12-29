@@ -17,7 +17,7 @@ func (a Int) add(b Int) Int {
 }
 
 // 把名字当前名字设置为空
-func (s *students) emptyName() {
+func emptyName(s *students) {
 	s.name = ""
 }
 
@@ -28,6 +28,6 @@ func main() {
 
 	stu := &students{1, "momo", 18, "男"}
 	fmt.Println(stu)
-	stu.emptyName()
+	emptyName(stu)
 	fmt.Println(stu)
 }
