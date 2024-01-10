@@ -5,9 +5,9 @@ import (
 )
 
 type student struct {
-	id int
+	id   int
 	name string
-	age int
+	age  int
 	addr string
 }
 
@@ -21,7 +21,7 @@ func main() {
 
 	a := 10
 	b := 10
-	
+
 	p := &a
 
 	*p = 666
@@ -31,4 +31,22 @@ func main() {
 	fmt.Println(p)
 	fmt.Println(b)
 	fmt.Println(&student2)
+
+	fmt.Println("*****************************************************")
+
+	//多级指针 p1 变量存放了 p 的地址
+	var p1 **int = &p
+
+	fmt.Println(p1)
+
+	//p2 变量存放了 p1 的地址
+	var p2 ***int = &p1
+
+	fmt.Println(p2)
+
+	***p2 = 777
+	fmt.Println(&p2)
+
+	fmt.Println(p2)
+	fmt.Println(&p1)
 }
