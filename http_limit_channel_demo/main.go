@@ -5,15 +5,18 @@ import (
 	"net"
 )
 
-var sem = make(chan struct{}, 100)
+var sem = make(chan struct{}, 2)
 
 func handleConn(c net.Conn) {
 	sem <- struct{}{}
 	defer func() { <-sem }()
 	//do something
+	fmt.Print("获取连接.....")
+	fmt.Print("开始应答.....")
+	c.Write([]byte("Hello World"))
 }
 
-func mian() {
+func main() {
 	// 创建监听
 	listener, err := net.Listen("tcp", "localhost:8000")
 	if err != nil {
