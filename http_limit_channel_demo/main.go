@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net"
 )
 
@@ -10,10 +11,30 @@ var sem = make(chan struct{}, 2)
 func handleConn(c net.Conn) {
 	sem <- struct{}{}
 	defer func() { <-sem }()
-	//do something
-	fmt.Print("获取连接.....")
-	fmt.Print("开始应答.....")
-	c.Write([]byte("Hello World"))
+	//获取请求数据
+	buf := make([]byte, 1024)
+	for {
+		n, err := c.Read(buf)
+		if err != nil {
+			//如果是读IO错误则关闭丽娜姐
+			if err != io.EOF {
+				fmt.Println("Failed to read from connection:", err)
+			}
+			return
+		}
+		//输出结果到控制台
+		fmt.Println("Received:", string(buf[:n]))
+		// 写入数据
+		var input string
+		//创建一个新的对象
+		fmt.Scanln(&input)
+		_, err = c.Write([]byte(input))
+		if err != nil {
+			fmt.Println("Failed to write to connection:", err)
+			return
+		}
+
+	}
 }
 
 func main() {
