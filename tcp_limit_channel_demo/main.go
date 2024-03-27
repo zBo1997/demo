@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-var sem = make(chan struct{}, 2)
+var sem = make(chan struct{}, 200)
 
 func handleConn(c net.Conn) {
 	sem <- struct{}{}
@@ -16,7 +16,7 @@ func handleConn(c net.Conn) {
 	for {
 		n, err := c.Read(buf)
 		if err != nil {
-			//如果是读IO错误则关闭丽娜姐
+			//如果是读IO
 			if err != io.EOF {
 				fmt.Println("Failed to read from connection:", err)
 			}

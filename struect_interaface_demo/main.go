@@ -29,11 +29,11 @@ func (*study) write(msg string) string {
 	panic("unimplemented")
 }
 
-func (s *study) linsten(msg string) string {
+func (*study) linsten(msg string) string {
 	return "linsten: " + msg
 }
 
-func (s *study) speak(msg string) string {
+func (*study) speak(msg string) string {
 	return "speak: " + msg
 }
 
