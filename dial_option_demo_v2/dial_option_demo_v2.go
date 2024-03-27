@@ -28,9 +28,44 @@ var (
 	}
 )
 
+
+
+// reset 重置对象参数
+//
+//	@receiver option
+func (option *option) reset() {
+	option.sex = 0
+	option.age = 0
+	option.height = 0
+	option.weight = 0
+	option.hobby = ""
+}
+
+// Option 声明一个类型是一个函数时接口，传递option的
+//  @param *option s
+type Option func(*option)
+
+// getOption 获取对象
+//  @return *option 
+func getOption() *option{
+	return cache.Get().(*option)
+}
+
+// releaseOption 重置对象
+//  @param opt 
+func releaseOption(opt *option){
+	opt.reset()
+	cache.Put(opt)
+}
+
+func WithSex(sex int)Option {
+	return func(o *option) {
+		o.sex = sex
+	}
+}
+
 func main() {
 
 	cache.Put(&option{name: "Tom"})
-	fmt.Println(cache.Get())
 	fmt.Println(cache.Get())
 }
