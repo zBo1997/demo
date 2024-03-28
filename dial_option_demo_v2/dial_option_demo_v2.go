@@ -28,8 +28,6 @@ var (
 	}
 )
 
-
-
 // reset 重置对象参数
 //
 //	@receiver option
@@ -42,30 +40,111 @@ func (option *option) reset() {
 }
 
 // Option 声明一个类型是一个函数时接口，传递option的
-//  @param *option s
+//
+//	@param *option s
 type Option func(*option)
 
 // getOption 获取对象
-//  @return *option 
-func getOption() *option{
+//
+//	@return *option
+func getOption() *option {
 	return cache.Get().(*option)
 }
 
 // releaseOption 重置对象
-//  @param opt 
-func releaseOption(opt *option){
+//
+//	@param opt
+func releaseOption(opt *option) {
 	opt.reset()
 	cache.Put(opt)
 }
 
-func WithSex(sex int)Option {
+// WithSex WithSex
+//
+//	@param sex
+//	@return Option
+func WithSex(height int) Option {
 	return func(o *option) {
-		o.sex = sex
+		o.height = height
 	}
+}
+
+// WithHobby set up Hobby
+func WithHobby(hobby string) Option {
+	return func(opt *option) {
+		opt.hobby = hobby
+	}
+}
+
+// WitWhWeight
+//
+//	@param weight
+//	@return Option
+func WitWhWeight(weight int) Option {
+	return func(o *option) {
+		o.weight = weight
+	}
+}
+
+// WithAge WithAge
+//
+//	@param age 年龄
+//	@return Option
+func WithAge(age int) Option {
+	return func(o *option) {
+		o.age = age
+	}
+}
+
+func findFriend(postion string, option ...Option) (string, error) {
+	friend := fmt.Sprintf("从 %s 找朋友 \n", postion)
+	//从缓存池获取对象
+	opt := getOption()
+
+	defer func() {
+		releaseOption(opt)
+	}()
+	for _, o := range option {
+		o(opt)
+	}
+	if opt.sex == 1 {
+		sex := "性别：女性"
+		friend += fmt.Sprintf("%s\n", sex)
+	}
+	if opt.sex == 2 {
+		sex := "性别：男性"
+		friend += fmt.Sprintf("%s\n", sex)
+	}
+
+	if opt.age != 0 {
+		age := fmt.Sprintf("年龄：%d岁", opt.age)
+		friend += fmt.Sprintf("%s\n", age)
+	}
+
+	if opt.height != 0 {
+		height := fmt.Sprintf("身高：%dcm", opt.height)
+		friend += fmt.Sprintf("%s\n", height)
+	}
+
+	if opt.weight != 0 {
+		weight := fmt.Sprintf("体重：%dkg", opt.weight)
+		friend += fmt.Sprintf("%s\n", weight)
+	}
+
+	if opt.hobby != "" {
+		hobby := fmt.Sprintf("爱好：%s", opt.hobby)
+		friend += fmt.Sprintf("%s\n", hobby)
+	}
+	return friend, nil
 }
 
 func main() {
 
-	cache.Put(&option{name: "Tom"})
-	fmt.Println(cache.Get())
+	friend, _ := findFriend("附近的人",
+		WithAge(1),
+		WitWhWeight(180),
+		WithHobby("滑雪"),
+		WithSex(1))
+
+	fmt.Println(friend)
 }
