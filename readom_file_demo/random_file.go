@@ -120,20 +120,18 @@ func main() {
 
 			ticker := time.NewTicker(interval)
 			defer ticker.Stop()
-
+			//ticker.C 是一个
 			for range ticker.C {
-				select {
-				case t := <-ticker.C:
-					filename := fmt.Sprintf("file_%d.sql", t.Unix()) // 根据时间戳生成文件名
-					content := generateSQLContent(table, createUserCode, additionalParams)
-					err := writeFile(directory, filename, content, maxSize)
-					if err != nil {
-						fmt.Printf("Error writing file: %v\n", err)
-					} else {
-						fmt.Printf("File %s written successfully at %v\n", filename, t)
-					}
+				filename := fmt.Sprintf("file_%d.sql", time.Now().Unix()) // 根据时间戳生成文件名
+				content := generateSQLContent(table, createUserCode, additionalParams)
+				err := writeFile(directory, filename, content, maxSize)
+				if err != nil {
+					fmt.Printf("Error writing file: %v\n", err)
+				} else {
+					fmt.Printf("File %s written successfully at %v\n", filename, time.Now())
 				}
 			}
+			return nil
 		},
 	}
 
