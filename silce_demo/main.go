@@ -23,6 +23,12 @@ func main() {
 	sli_4 := sli_3[0:3]
 	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_4),cap(sli_4),sli_4)
 
+	test := make([]int32, 3, 5)
+
+	for index,data  := range test {
+		fmt.Println(index, data)
+	}
+
 	data := map[string]interface{}{}
 
 	data["name"] = "张三"

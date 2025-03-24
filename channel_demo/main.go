@@ -23,7 +23,7 @@ func main() {
 	ch1 <- 3
 	ch1 <- 4
 
-	close(ch1)
+	//close(ch1)
 
 	fmt.Printf("len(ch1): %d, cap(ch1): %d\n", len(ch1), cap(ch1))
 	//使用goroutine读取ch1
