@@ -47,9 +47,7 @@ func generateSQLContent(table string, createUserCode string, additionalParams []
 	startTime, endTime := generateRandomTimeRange()
 	conditions = append(conditions, fmt.Sprintf("create_time BETWEEN '%s' AND '%s'", startTime, endTime))
 
-	for _, param := range additionalParams {
-		conditions = append(conditions, param)
-	}
+	conditions = append(conditions, additionalParams...)
 
 	return fmt.Sprintf("SELECT * FROM %s WHERE %s;\n", table, strings.Join(conditions, " AND "))
 }
