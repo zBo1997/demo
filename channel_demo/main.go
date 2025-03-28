@@ -6,16 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World!")
-
-	go func() {
-		fmt.Print("goroutine 1\n")
-	}()
-
-	time.Sleep(1 * time.Second)
-
-	fmt.Print("end\n")
-
 	ch1 := make(chan int, 10)
 
 	ch1 <- 1
