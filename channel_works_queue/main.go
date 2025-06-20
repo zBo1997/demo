@@ -14,12 +14,15 @@ type IcuQueue struct {
 	ch     chan func()
 }
 
-func (this *IcuQueue) NewIcuQueue(ctx context.Context, size int) *IcuQueue {
+func (this *IcuQueue) NewIcuQueue(workers int,size int) *IcuQueue {
 	queue := &IcuQueue{}
 	//初始化队列和队列中context上下文
 	queue.ctx, queue.cancel = context.WithCancel(context.Background())
 	queue.ch = make(chan func(), size)
-	queue.waiter.Add(size)
+	for i := 0; i < workers; i++ {
+		queue.waiter.Add(1)
+		go queue.Pop() // 启动workers个消费者
+	}
 	return queue
 }
 
@@ -30,8 +33,6 @@ func (this *IcuQueue) Push(item func(), timeout int) error {
 		return nil
 	case <-timer.C:
 		return fmt.Errorf("timeout after %d seconds, item not added to queue", timeout)
-	default:
-		return fmt.Errorf("queue is full, item not added to queue")
 	}
 }
 
@@ -45,9 +46,6 @@ func (this *IcuQueue) Pop() {
 		case <-this.ctx.Done():
 			fmt.Println("queue is closed, no item to pop")
 			return
-		default:
-			fmt.Println("queue is empty, no item to pop")
-			return // 如果队列为空，则直接返回
 		}
 	}
 }
@@ -57,4 +55,24 @@ func (this *IcuQueue) Close() {
 	this.cancel()
 	//等待所有的任务完成
 	this.waiter.Wait()
+}
+
+
+func main() {
+   	workerNum := 5 // 用户可自定义
+    queueSize := 10
+	queue := new(IcuQueue).NewIcuQueue(workerNum,queueSize)
+
+	// 向队列中添加任务
+	for i := 0; i < 20; i++ {
+		i := i
+		err := queue.Push(func() {
+			fmt.Printf("task %d is running\n", i)
+			time.Sleep(2 * time.Second)
+		}, 1)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	queue.Close()
 }
