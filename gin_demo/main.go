@@ -1,27 +1,50 @@
 package main
 
 import (
-	"path/filepath"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	server := gin.Default()
+	r := gin.Default()
 
-	server.GET("/login", func(c *gin.Context) {
+	r.GET("/test", func(ctx *gin.Context) {
+		// 往上下文中写入数据
+		unixMilli := time.Now().UnixMilli()
+		ctx.Set("timestamp", unixMilli)
 
-		file, err := c.FormFile("file")
-		if err != nil {
-			c.JSON(400, gin.H{"message": err.Error()})
-			return
-		}
+		// 在主线程中启动一个 goroutine
+		go func() {
+			// 模拟耗时任务
+			time.Sleep(10 * time.Second)
 
-		if err := c.SaveUploadedFile(file, filepath.Join("uploads", file.Filename)); err != nil {
-			c.JSON(500, gin.H{"message": err.Error()})
-			return
-		}
+			// 从上下文中读取数据并比较，由于gin内部使用了的一个对象池来管理这个context对象，
+			// 所以可能会出现 “时间戳不同”的情况，因为在主线程中设置的时间戳可能已经被其他请求覆盖了
+			value, exists := ctx.Get("timestamp")
+			if exists {
+				// 比较时间戳
+				if value.(int64) == unixMilli {
+					println("时间戳相同")
+				} else {
+
+					println("时间戳不同")
+				}
+			} else {
+				println("数据不存在")
+			}
+		}()
+
+		ctx.JSON(200, gin.H{
+			"message": "程序员陈明勇",
+		})
 	})
 
-	server.Run(":8080")
+	r.GET("/healthcheck", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"message": "ok",
+		})
+	})
+
+	r.Run(":8080")
 }
