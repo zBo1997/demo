@@ -36,7 +36,7 @@ func main() {
 		}()
 
 		ctx.JSON(200, gin.H{
-			"message": "程序员陈明勇",
+			"message": "ok",
 		})
 	})
 

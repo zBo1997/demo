@@ -23,6 +23,7 @@ func main() {
 	sli_4 := sli_3[0:3]
 	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_4),cap(sli_4),sli_4)
 
+	//创建一个切片，长度为3，容量为5
 	test := make([]int32, 3, 5)
 
 	for index,data  := range test {

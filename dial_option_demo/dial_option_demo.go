@@ -2,11 +2,10 @@ package main
 
 import "fmt"
 
-
-// Add 
-//  @param a 
-//  @param args 
-//  @return int 
+// Add
+//  @param a
+//  @param args
+//  @return int
 func Add(a *int, args ...int) int {
 	result := a
 	for _, v := range args {
@@ -21,6 +20,5 @@ func main() {
 
 	fmt.Println(Add(&p, 2, 3))
 
-	p = 1
 	fmt.Println(p)
 }
