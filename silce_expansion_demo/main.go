@@ -4,6 +4,11 @@ package main
 import "fmt"
 
 func main() {
+	slice_expansion := make([]int, 0)
+	fmt.Printf("init slice_expansion: len=%d cap=%d slice=%v\n", len(slice_expansion), cap(slice_expansion), slice_expansion)
+	slice_expansion = append(slice_expansion, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+	fmt.Printf("append slice_expansion: len=%d cap=%d slice=%v\n", len(slice_expansion), cap(slice_expansion), slice_expansion)
+
 	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	b := make([]int, 0, 3)
 	b = append(b, a...) // 使用append函数将切片a的所有元素添加到切片b中
