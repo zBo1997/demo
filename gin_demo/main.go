@@ -27,7 +27,6 @@ func main() {
 				if value.(int64) == unixMilli {
 					println("时间戳相同")
 				} else {
-
 					println("时间戳不同")
 				}
 			} else {
