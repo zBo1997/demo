@@ -13,7 +13,6 @@ func main() {
 	}()
 
 	go func() {
-
 		panic("panic")
 	}()
 
