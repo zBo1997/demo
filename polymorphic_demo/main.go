@@ -23,6 +23,6 @@ func MakeSound(a Animal) string {
 }
 
 func main() {
-	var a Animal = Cat{}
+	var a Animal = Dog{}
 	fmt.Println(MakeSound(a)) // Output: Woof!
 }

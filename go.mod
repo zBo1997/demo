@@ -6,6 +6,7 @@ toolchain go1.24.7
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/go-viper/mapstructure/v2 v2.4.0
 	github.com/urfave/cli/v2 v2.27.2
 )
 
