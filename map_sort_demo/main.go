@@ -20,4 +20,13 @@ func main() {
 	for _, k := range keys {
 		println(k, data[k])
 	}
+
+	keyNormalSort := make(map[int]string)
+	keyNormalSort[3] = "apple"
+	keyNormalSort[2] = "cherry"
+	keyNormalSort[1] = "banana"
+	//遍历输出这个map
+	for key, value := range keyNormalSort {
+		println(key, value)
+	}
 }
