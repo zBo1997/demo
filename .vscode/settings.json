@@ -1,0 +1,16 @@
+{
+    "go.delveConfig": {
+        "dlvToolPath": "dlv",
+        "apiVersion": 2,
+        "showLog": true
+    },
+    "go.lintOnSave": "off",
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "go.buildFlags": ["-gcflags=all=-N -l"],
+    "go.testFlags": ["-v"]
+}
