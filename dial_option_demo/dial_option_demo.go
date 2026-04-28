@@ -3,9 +3,11 @@ package main
 import "fmt"
 
 // Add
-//  @param a 指针
-//  @param args
-//  @return int
+//
+//	@param a 指针
+//	@param args
+//	@return int
+//
 // 这个方法接收一个整数指针和可变数量的整数参数，将这些整数累加到指针指向的值上，并返回累加后的结果
 func Add(a *int, args ...int) int {
 	result := a
@@ -15,7 +17,7 @@ func Add(a *int, args ...int) int {
 	return *result
 }
 
-//不带使用指针的版本
+// 不带使用指针的版本
 func AddNormal(a int, args ...int) int {
 	result := a
 	for _, v := range args {
