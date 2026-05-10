@@ -3,11 +3,12 @@ package main
 import "reflect"
 
 // 我们有一组数据 含有字母 正整数字 浮点数 只对数字快速排序
-// 2分查找
+// 双指针 是一个什么递归
 func quick_sort(arr []float64) []float64 {
 	if len(arr) <= 1 {
 		return arr
 	}
+	//pivot是指针 选取数组中间的元素作为基准元素的值
 	pivot := arr[len(arr)/2]
 	left := []float64{}
 	right := []float64{}
@@ -21,7 +22,7 @@ func quick_sort(arr []float64) []float64 {
 			right = append(right, v)
 		}
 	}
-	//递归进行排序，并将结果合并
+	// 递归调用 quick_sort 对 left 和 right 进行排序，并将结果与 pivot 连接起来
 	return append(append(quick_sort(left), pivot), quick_sort(right)...)
 }
 
