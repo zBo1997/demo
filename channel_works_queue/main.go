@@ -14,7 +14,7 @@ type IcuQueue struct {
 	ch     chan func()
 }
 
-func (this *IcuQueue) NewIcuQueue(workers int,size int) *IcuQueue {
+func (this *IcuQueue) NewIcuQueue(workers int, size int) *IcuQueue {
 	queue := &IcuQueue{}
 	//初始化队列和队列中context上下文
 	queue.ctx, queue.cancel = context.WithCancel(context.Background())
@@ -57,11 +57,10 @@ func (this *IcuQueue) Close() {
 	this.waiter.Wait()
 }
 
-
 func main() {
-   	workerNum := 5 // 用户可自定义
-    queueSize := 10
-	queue := new(IcuQueue).NewIcuQueue(workerNum,queueSize)
+	workerNum := 5 // 用户可自定义
+	queueSize := 10
+	queue := new(IcuQueue).NewIcuQueue(workerNum, queueSize)
 
 	// 向队列中添加任务
 	for i := 0; i < 20; i++ {

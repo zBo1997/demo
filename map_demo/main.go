@@ -1,17 +1,17 @@
 package main
 
-import "fmt"
-
 func main() {
-	testData := make(map[string][]string, 10)
-	testData["张三"] = []string{"1000", "1000"}
-	testData["李四"] = []string{"1000", "1000", "18"}
-	testData["王五"] = []string{"1000", "1000", "18"}
-	for key, value := range testData {
-		if key == "李四" {
-			value = append(value, "1800")
-			testData[key] = value
-		}
+	myMap := make(map[int]struct{})
+	myMap[6] = struct{}{}
+	myMap[2] = struct{}{}
+
+	for k := range myMap {
+		println(k)
 	}
-	fmt.Println(testData)
+
+	mynotifyChan := make(map[string]chan int)
+	mynotifyChan["test"] = make(chan int, 1)
+	mynotifyChan["test"] <- 1
+
+	println(<-mynotifyChan["test"])
 }
