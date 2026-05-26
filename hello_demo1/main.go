@@ -13,10 +13,11 @@ func main() {
 	yest := 20.2
 	num := 32.2
 	fmt.Println("hello,go" + strconv.Itoa(a))
+	fmt.Println("hello,go", a)
 	fmt.Println(yest)
 	fmt.Println(num)
 
 	//自动类型推断
-	pi :=3.14
-	fmt.Printf("%T\n",pi)
+	pi := 3.14
+	fmt.Printf("%T\n", pi)
 }

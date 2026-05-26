@@ -5,31 +5,33 @@ import (
 	"strconv"
 )
 
-type myCallback func(param ...interface{}) string
+// 可以由调用方决定类型的回调函数
+type SumCallBack[T any] func([]T) T
 
 func main() {
-	result := newArray(func(param ...interface{}) string {
-		var result = 0
-		for _, value := range param {
-			if num, ok := value.(int); ok {
-				result += num
-			}
+	result := newArray(func(array []int) int {
+		sum := 0
+		for _, value := range array {
+			sum += value
 		}
-		return strconv.Itoa(result)
+		return sum
 	})
 	fmt.Printf("result:%v\n", result)
 }
 
-func newArray(myCallback myCallback) string {
-	array := []int{1, 2, 3, 4, 5}
-	prepare := make([]interface{}, len(array))
+func newArray(myCallback SumCallBack[int]) string {
+	array := []int{1, 2, 3, 4, 6}
+	prepare := make([]int, len(array))
 	for _, value := range array {
 		prepare = append(prepare, value)
 	}
-	return myCallback(prepare...)
+	result := myCallback(prepare)
+	fmt.Printf("回调函数的结果是:%v\n", result)
+	divide := result / 2
+	return strconv.Itoa(divide)
 }
 
-func newMap(myCallback myCallback) {
+func newMap(myCallback SumCallBack[int]) {
 	myMap := make(map[string]struct{})
 	myMap["zhubo"] = struct{}{}
 
