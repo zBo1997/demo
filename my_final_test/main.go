@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 )
 
@@ -17,6 +18,19 @@ func main() {
 		return sum
 	})
 	fmt.Printf("result:%v\n", result)
+
+	resultMap := newMap(func(array []string) string {
+		result := ""
+		//把map按照key排序
+		sortedArray := make([]string, len(array))
+		copy(sortedArray, array)
+		sort.Strings(sortedArray)
+		for _, value := range sortedArray {
+			result += value + " "
+		}
+		return result
+	})
+	fmt.Printf("resultMap:%v\n", resultMap)
 }
 
 func newArray(myCallback SumCallBack[int]) string {
@@ -31,8 +45,16 @@ func newArray(myCallback SumCallBack[int]) string {
 	return strconv.Itoa(divide)
 }
 
-func newMap(myCallback SumCallBack[int]) {
+func newMap(myCallback SumCallBack[string]) string {
 	myMap := make(map[string]struct{})
-	myMap["zhubo"] = struct{}{}
-
+	myMap["zhubo5"] = struct{}{}
+	myMap["zhubo1"] = struct{}{}
+	myMap["zhubo3"] = struct{}{}
+	myMap["zhubo2"] = struct{}{}
+	prepare := make([]string, 0, len(myMap))
+	for key := range myMap {
+		prepare = append(prepare, key)
+	}
+	result := myCallback(prepare)
+	return result
 }
