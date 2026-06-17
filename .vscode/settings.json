@@ -4,6 +4,9 @@
         "apiVersion": 2,
         "showLog": true
     },
+    "go.toolsEnvVars": {
+        "GOPROXY": "https://goproxy.cn,direct"
+    },
     "go.lintOnSave": "off",
     "[go]": {
         "editor.formatOnSave": true,
